@@ -87,19 +87,4 @@ class CommentDataset(Dataset):
         features = self.sequences[index]
         labels = self.labels[index]
 
-        features = torch.tensor(features, dtype=torch.float32)
-        label1 = torch.tensor(labels[0], dtype=torch.float32)
-        label2 = torch.tensor(labels[1], dtype=torch.float32)
-        label3 = torch.tensor(labels[2], dtype=torch.float32)
-        label4 = torch.tensor(labels[3], dtype=torch.float32)
-        label5 = torch.tensor(labels[4], dtype=torch.float32)
-        label6 = torch.tensor(labels[5], dtype=torch.float32)
-        return {
-            'comment': features,
-            'toxic': label1,
-            'severe_toxic': label2,
-            'obscene': label3,
-            'threat': label4,
-            'insult': label5,
-            'indentity_hate': label6
-        }
+        return features, labels
