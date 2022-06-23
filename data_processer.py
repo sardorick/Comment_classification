@@ -5,6 +5,7 @@ import spacy
 from torch.utils.data import Dataset, DataLoader
 from torchtext.vocab import FastText
 np.random.seed(0)
+BATCH_SIZE = 16
 
 nlp = spacy.load('en_core_web_sm')
 fasttext = FastText("simple")
@@ -89,30 +90,44 @@ class CommentDataset(Dataset):
         features = self.sequences[index]
         labels = self.labels[index]
 
-        label1 = torch.tensor(labels[0], dtype=torch.float32)
-        label2 = torch.tensor(labels[1], dtype=torch.float32)
-        label3 = torch.tensor(labels[2], dtype=torch.float32)
-        label4 = torch.tensor(labels[3], dtype=torch.float32)
-        label5 = torch.tensor(labels[4], dtype=torch.float32)
-        label6 = torch.tensor(labels[5], dtype=torch.float32)
-        return {
-            'comment': features,
-            'toxic': label1,
-            'severe_toxic': label2,
-            'obscene': label3,
-            'threat': label4,
-            'insult': label5,
-            'indentity_hate': label6
-        }
+        return features, labels
 
 ###################
 
 
 df = load_data("data/train.csv")
 # print(df.head())
-train_df, test_df = train_test_split(df.iloc[:20])
-print(len(train_df), len(test_df))
+train_df, test_df = train_test_split(df)
+# print(len(train_df), len(test_df))
 
-train_data, test_data = CommentDataset(train_df), CommentDataset(test_df)
+train_data, test_data = CommentDataset(
+    train_df), CommentDataset(test_df)
 
-print(train_data[0])
+# print(train_data[0])
+
+
+def collate_train(batch, vectorizer=train_data.vectorizer):
+    inputs = torch.stack([torch.stack([vectorizer(token)
+                         for token in sentence[0]]) for sentence in batch])
+
+    target = torch.LongTensor([item[1] for item in batch])
+    return inputs, target
+
+
+def collate_test(batch, vectorizer=test_data.vectorizer):
+    inputs = torch.stack([torch.stack([vectorizer(token)
+                         for token in sentence[0]]) for sentence in batch])
+    target = torch.LongTensor([item[1] for item in batch])
+    return inputs, target
+
+
+train_loader = DataLoader(train_df, batch_size=BATCH_SIZE,
+                          collate_fn=collate_train, shuffle=True)
+
+
+test_loader = DataLoader(
+    test_df, batch_size=BATCH_SIZE, collate_fn=collate_test)
+
+
+inputs, targets = iter(train_loader).next()
+print(inputs.shape)
