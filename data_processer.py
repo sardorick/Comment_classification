@@ -14,6 +14,7 @@ fasttext = FastText("simple")
 
 def load_data(pth):
     df = pd.read_csv(pth)
+    df = df.sample(100).reset_index(drop=True)
     df.drop(columns=['id'], inplace=True)
     return df
 
@@ -100,10 +101,11 @@ df = load_data("data/train.csv")
 train_df, test_df = train_test_split(df)
 # print(len(train_df), len(test_df))
 
+
 train_data, test_data = CommentDataset(
     train_df), CommentDataset(test_df)
 
-# print(train_data[0])
+# print(test_data[0])
 
 
 def collate_train(batch, vectorizer=train_data.vectorizer):
@@ -122,12 +124,13 @@ def collate_test(batch, vectorizer=test_data.vectorizer):
 
 
 train_loader = DataLoader(train_df, batch_size=BATCH_SIZE,
-                          collate_fn=collate_train, shuffle=True)
+                          collate_fn=collate_train, shuffle=True, drop_last=True)
 
 
 test_loader = DataLoader(
-    test_df, batch_size=BATCH_SIZE, collate_fn=collate_test)
+    test_df, batch_size=BATCH_SIZE, collate_fn=collate_test, drop_last=True)
 
 
 inputs, targets = iter(train_loader).next()
 print(inputs.shape)
+

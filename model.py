@@ -40,13 +40,13 @@ class MultiClassifier(nn.Module):
 def binary_loss(outputs, targets):
     o1, o2, o3, o4, o5, o6 = outputs
     t1, t2, t3, t4, t5, t6 = targets
-    avg1 = nn.BCELoss()(o1, t1)
-    avg2 = nn.BCELoss()(o2, t2)
-    avg3 = nn.BCELoss()(o3, t3)
-    avg4 = nn.BCELoss()(o4, t4)
-    avg5 = nn.BCELoss()(o5, t5)
-    avg6 = nn.BCELoss()(o6, t6)
-    return (avg1+avg2+avg3+avg4+avg5+avg6)/6
+    loss1 = nn.BCELoss()(o1, t1)
+    loss2 = nn.BCELoss()(o2, t2)
+    loss3 = nn.BCELoss()(o3, t3)
+    loss4 = nn.BCELoss()(o4, t4)
+    loss5 = nn.BCELoss()(o5, t5)
+    loss6 = nn.BCELoss()(o6, t6)
+    return (loss1+loss2+loss3+loss4+loss5+loss6)/6
 
 
 
