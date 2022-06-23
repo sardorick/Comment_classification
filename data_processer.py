@@ -33,8 +33,8 @@ def preprocessing(sentence):
     return token list
     """
     doc = nlp(sentence)
-    tokens = [tokens.lemma_ for token in doc if not token.is_stop and not token.is_space and not token.is_punct and not token.is_bracket and not 
-    token.like_email and not token.is_currency and not token.is_digit and not token.like_url and not token.is_ascii]
+    tokens = [token.lemma_ for token in doc if not token.is_stop and not token.is_space and not token.is_punct and not token.is_bracket and not 
+    token.like_email and not token.is_currency and not token.is_digit and not token.like_url and token.is_ascii]
     return tokens
 
 def token_encoder(token, vec):

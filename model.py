@@ -34,7 +34,22 @@ class MultiClassifier(nn.Module):
         out6 = torch.sigmoid(self.out6(x))
 
         return out1, out2, out3, out4, out5, out6
-    
+
+# custom Binary loss function
+
+def binary_loss(outputs, targets):
+    o1, o2, o3, o4, o5, o6 = outputs
+    t1, t2, t3, t4, t5, t6 = targets
+    avg1 = nn.BCELoss()(o1, t1)
+    avg2 = nn.BCELoss()(o2, t2)
+    avg3 = nn.BCELoss()(o3, t3)
+    avg4 = nn.BCELoss()(o4, t4)
+    avg5 = nn.BCELoss()(o5, t5)
+    avg6 = nn.BCELoss()(o6, t6)
+    return (avg1+avg2+avg3+avg4+avg5+avg6)/6
+
+
+
 # model = MultiClassifier(32, 300)
 
 # data = torch.rand(16, 32, 300)
