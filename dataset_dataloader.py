@@ -87,6 +87,7 @@ class CommentDataset(Dataset):
         features = self.sequences[index]
         labels = self.labels[index]
 
+        features = torch.tensor(features, dtype=torch.float32)
         label1 = torch.tensor(labels[0], dtype=torch.float32)
         label2 = torch.tensor(labels[1], dtype=torch.float32)
         label3 = torch.tensor(labels[2], dtype=torch.float32)
