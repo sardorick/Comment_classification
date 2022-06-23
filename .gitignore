@@ -5,6 +5,9 @@ __pycache__/
 
 # C extensions
 *.so
+# vec extensions
+*.vec
+*.vec.pt
 
 # Distribution / packaging
 .Python
