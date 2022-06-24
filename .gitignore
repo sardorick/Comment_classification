@@ -9,6 +9,9 @@ __pycache__/
 *.vec
 *.vec.pt
 
+# pth extensions
+*.pth
+
 # Distribution / packaging
 .Python
 build/

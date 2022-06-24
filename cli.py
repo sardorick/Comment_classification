@@ -11,7 +11,6 @@ from data_handler_new import tokenizer, train_loader
 # model = Classifier(bert_model)
 
 model.load_state_dict(torch.load('model.pth')) 
-
 df = pd.read_csv('data/train.csv').drop(columns='id')
 sample = df.sample(500).reset_index(drop=True)
 # tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
