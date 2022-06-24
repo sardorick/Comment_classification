@@ -15,12 +15,12 @@ torch.manual_seed(0)
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 bert_model = BertModel.from_pretrained('bert-base-uncased')
 model = Classifier(bert_model)
-df = pd.read_csv('data/toxic_comments.csv').drop(columns='id')
+# df = pd.read_csv('data/toxic_comments.csv').drop(columns='id')
 
 learning_rate = 0.001
 optimizer = optim.Adam(params=model.parameters(), lr = learning_rate)
 criterion = nn.BCEWithLogitsLoss()
-n_epochs = 5
+n_epochs = 10
 
 # Train loop
 benchmark_acc = 0.70
@@ -98,7 +98,7 @@ for epoch in range(n_epochs):
         # save best model
         if test_acc[-1] > benchmark_acc:
             # save model to cpu
-            torch.save(model.to('cpu').state_dict(), './model.pth')
+            torch.save(model.to('cpu').state_dict(), './model50k.pth')
             
 
             # update benckmark

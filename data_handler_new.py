@@ -13,12 +13,12 @@ torch.manual_seed(0)
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-df = pd.read_csv('data/toxic_comments.csv').drop(columns='id')
+df = pd.read_csv('data/train.csv').drop(columns='id')
 word_counts = df.comment_text.apply(lambda x: len(x.split()))
 plt.figure(figsize=(8, 6))
 sns.histplot(x = word_counts)
 
-sample = df.sample(500).reset_index(drop=True)
+sample = df.sample(50000).reset_index(drop=True)
 
 
 max_len = 36
